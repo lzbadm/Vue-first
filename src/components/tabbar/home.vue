@@ -1,15 +1,16 @@
 <template>
     <div>
         <mt-swipe :auto="4000">
-            <mt-swipe-item v-for="item in ImgList" :key="item.url">
+            <mt-swipe-item v-for="(item,index) in ImgList" :key="index">
                 <img :src="item.img" alt="">
             </mt-swipe-item>
         </mt-swipe>
         <!--九宫格到六宫格-->
         <ul class="mui-table-view mui-grid-view mui-grid-9">
 		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
+                        <router-link to="/home/newsList">
 		                    <img src="../../images/menu1.png" alt="">
-		                    <div class="mui-media-body">新闻资讯</div></a></li>
+		                    <div class="mui-media-body">新闻资讯</div></router-link></a></li>
 		            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
 		                    <img src="../../images/menu2.png" alt="">
 		                    <div class="mui-media-body">图片分享</div></a></li>
@@ -29,6 +30,7 @@
     </div>
 </template>
 <script>
+import { Toast } from 'mint-ui';
 export default {
     data() {
         return {
@@ -40,7 +42,7 @@ export default {
     },
     methods: {
         getImg(){
-            this.$http.get('http://www.liulongbin.top:3005/api/getlunbo').then(result=>{
+            this.$http.get('api/getlunbo').then(result=>{
                 if(result.body.status ===0){
                     this.ImgList = result.body.message
                 }else{
