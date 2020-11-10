@@ -12,10 +12,11 @@ Vue.use(VueResource)
 
 //请求根路径
 Vue.http.options.root = 'http://www.liulongbin.top:3005';
+Vue.http.options.emulateJSON = true;
 
 import moment from 'moment'
 //定义全局过滤器
-Vue.filter('dataFormat', function(dataStr, pattern = "YYYY-MM-DD HH:mm:ss") {
+Vue.filter('dateFormat', function(dataStr, pattern = "YYYY-MM-DD HH:mm:ss") {
     return moment(dataStr).format(pattern)
 })
 
@@ -24,11 +25,18 @@ import './lib/mui/css/mui.css'
 import './lib/mui/css/icons-extra.css'
 
 //按需导入
-import { Header, Swipe, SwipeItem, Button } from 'mint-ui';
-Vue.component(Header.name, Header);
-Vue.component(Swipe.name, Swipe);
-Vue.component(SwipeItem.name, SwipeItem);
-Vue.component(Button.name, Button);
+// import { Header, Swipe, SwipeItem, Button, Lazyload } from 'mint-ui';
+// Vue.use(Lazyload);
+// Vue.component(Header.name, Header);
+// Vue.component(Swipe.name, Swipe);
+// Vue.component(SwipeItem.name, SwipeItem);
+// Vue.component(Button.name, Button);
+import Mint from 'mint-ui'
+Vue.use(Mint)
+import 'mint-ui/lib/style.css'
+
+import VuePreview from 'vue-preview'
+Vue.use(VuePreview)
 
 //导入App
 import App from './app.vue'

@@ -2,7 +2,7 @@
     <div class="newsinfo">
         <h3 class="title">{{newsinfo.title}}</h3>
         <p class="subtitle">
-            <span>发布时间：{{newsinfo.add_time|dataFormat}}</span>
+            <span>发布时间：{{newsinfo.add_time|dateFormat}}</span>
             <span>点击次数：{{newsinfo.click}}次</span>
         </p>
         <hr>
