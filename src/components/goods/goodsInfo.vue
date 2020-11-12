@@ -85,6 +85,13 @@ export default {
         },
         addToShopCar(){
             this.ballFlag=!this.ballFlag
+            var goodsinfo = {
+                id:this.id,
+                count:this.selectedCount,
+                price:this.goodsInfo.sell_price,
+                selected:true
+            }
+            this.$store.commit('addToCar',goodsinfo);
         },
         beforeEnter(el){
             el.style.transform="translate(0,0)"

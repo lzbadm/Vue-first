@@ -10,6 +10,97 @@ Vue.use(VueRouter)
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
 
+//导入Vuex
+import Vuex from 'vuex'
+Vue.use(Vuex)
+
+var car = JSON.parse(localStorage.getItem('car') || '[]')
+
+const store = new Vuex.Store({
+    state: {
+        car: car
+    },
+    mutations: {
+        addToCar(state, goodsinfo) {
+            var flag = false
+            state.car.some(item => {
+                if (item.id === goodsinfo.id) {
+                    item.count += parseInt(goodsinfo.count)
+                    flag = true
+                    return true
+                }
+            })
+            if (!flag) {
+                state.car.push(goodsinfo)
+            }
+
+            localStorage.setItem('car', JSON.stringify(state.car))
+        },
+        updateGoodsInfo(state, goodsinfo) {
+            state.car.some(item => {
+                if (item.id === goodsinfo.id) {
+                    item.count = parseInt(goodsinfo.count)
+                    return true
+                }
+            })
+            localStorage.setItem('car', JSON.stringify(state.car))
+        },
+        removeFromCar(state, id) {
+            state.car.some((item, i) => {
+                if (item.id === id) {
+                    state.car.splice(i, 1);
+                    return true
+                }
+            })
+            localStorage.setItem('car', JSON.stringify(state.car))
+        },
+        updateSelected(state, info) {
+            state.car.some(item => {
+                if (item.id === info.id) {
+                    item.selected = info.selected
+                }
+            })
+            localStorage.setItem('car', JSON.stringify(state.car))
+        }
+    },
+    getters: {
+        getAllCount(state) {
+            var c = 0;
+            state.car.forEach(item => {
+                c += item.count
+            })
+            return c
+        },
+        getGoodsCount(state) {
+            var object = {}
+            state.car.forEach(item => {
+                object[item.id] = item.count
+            })
+            return object
+        },
+        getGoodsSelected(state) {
+            var object = {}
+            state.car.forEach(item => {
+                object[item.id] = item.selected
+            })
+            return object
+        },
+        getCountAndAmount(state) {
+            var o = {
+                count: 0,
+                amount: 0
+            }
+            state.car.forEach(item => {
+                if (item.selected) {
+                    o.count += item.count
+                    o.amount += (item.count * item.price)
+                }
+            })
+            return o;
+        }
+    }
+})
+
 //请求根路径
 Vue.http.options.root = 'http://www.liulongbin.top:3005';
 Vue.http.options.emulateJSON = true;
@@ -50,5 +141,6 @@ var vm = new Vue({
     data: {},
     methods: {},
     render: c => c(App),
-    router
+    router,
+    store
 })
